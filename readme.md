@@ -117,7 +117,7 @@ As of version 1.1.0, there is a filter `better_rest_api_featured_image` that all
 	}
 
 
-This plugin is on [on Github](https://github.com/BraadMartin/better-rest-api-featured-images "Better REST API Author") and pull requests are always welcome. :)
+This plugin is on [on Github](https://github.com/SK8-PTY-LTD/better-rest-api-author "Better REST API Author") and pull requests are always welcome. :)
 
 ## Installation ##
 
