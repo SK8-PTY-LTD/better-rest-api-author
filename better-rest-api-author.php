@@ -3,7 +3,7 @@
  * Better REST API Author
  *
  * @package             Better_REST_API_Featured_Images
- * @author              Braad Martin <wordpress@braadmartin.com>
+ * @author              Jack Song <app@sk8.asia>
  * @license             GPL-2.0+
  *
  * @wordpress-plugin
@@ -11,8 +11,8 @@
  * Plugin URI:          https://wordpress.org/plugins/better-rest-api-author/
  * Description:         Adds a top-level field with featured image data including available sizes and URLs to the post object returned by the REST API.
  * Version:             1.2.1
- * Author:              Braad Martin
- * Author URI:          http://braadmartin.com
+ * Author:              Jack Song
+ * Author URI:          https://sk8.tech
  * License:             GPL-2.0+
  * License URI:         http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:         better-rest-api-author
@@ -92,9 +92,33 @@ function better_rest_api_author_get_field( $object, $field_name, $request ) {
 		return null;
 	}
 
-	$author = get_userdata( $author_id );
+	$user_data = get_userdata($author_id); // get user data from author ID.
 
-	if ( ! $author ) {
+    $array_data = (array)($user_data->data); // object to array conversion.
+
+    $array_data['first_name'] = get_user_meta($object['author'], 'first_name', true);
+    $array_data['last_name']  = get_user_meta($object['author'], 'last_name', true);
+    $array_data['name'] = $array_data['user_nicename'];
+    $array_data['url'] = $array_data['user_url'];
+    $array_data['id'] = (int)$array_data['ID'];
+    $array_data['roles'] = $user_data->roles;
+    // $array_data['extra_capabilities'] = $user_data->caps;
+    // $array_data['capabilities'] = $user_data->allcaps;
+    // $array_data['allData'] = $user_data->user_data;
+
+    // prevent user enumeration.
+    unset($array_data['user_login']);
+    unset($array_data['user_pass']);
+    unset($array_data['user_activation_key']);
+    unset($array_data['user_email']);
+    unset($array_data['user_registered']);
+    unset($array_data['user_status']);
+    unset($array_data['user_url']);
+    unset($array_data['user_nicename']);
+    unset($array_data['display_name']);
+    unset($array_data['ID']);
+
+	if ( ! $array_data ) {
 		return null;
 	}
 
@@ -128,5 +152,5 @@ function better_rest_api_author_get_field( $object, $field_name, $request ) {
 	// 	$featured_image['media_details']['sizes'] = new stdClass;
 	// }
 
-	return apply_filters( 'better_rest_api_featured_image', $author, $author_id );
+	return apply_filters( 'better_rest_api_author', $array_data, $author_id );
 }
