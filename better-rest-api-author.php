@@ -104,7 +104,7 @@ function better_rest_api_author_get_field( $object, $field_name, $request ) {
     $array_data['roles'] = $user_data->roles;
     // $array_data['extra_capabilities'] = $user_data->caps;
     // $array_data['capabilities'] = $user_data->allcaps;
-    // $array_data['allData'] = $user_data->user_data;
+    // $array_data['allData'] = $user_data;
 
     // prevent user enumeration.
     unset($array_data['user_login']);
